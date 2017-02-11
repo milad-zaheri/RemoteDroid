@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/29/trunk/RemoteDroid2.0/src/com/illposed/osc
+END
+OSCListener.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/29/trunk/RemoteDroid2.0/src/com/illposed/osc/OSCListener.java
+END
+OSCPacket.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/29/trunk/RemoteDroid2.0/src/com/illposed/osc/OSCPacket.java
+END
+OSCBundle.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/29/trunk/RemoteDroid2.0/src/com/illposed/osc/OSCBundle.java
+END
+OSCPortIn.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/29/trunk/RemoteDroid2.0/src/com/illposed/osc/OSCPortIn.java
+END
+OSCPortOut.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/29/trunk/RemoteDroid2.0/src/com/illposed/osc/OSCPortOut.java
+END
+OSCMessage.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/29/trunk/RemoteDroid2.0/src/com/illposed/osc/OSCMessage.java
+END
+OSCPort.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/29/trunk/RemoteDroid2.0/src/com/illposed/osc/OSCPort.java
+END
