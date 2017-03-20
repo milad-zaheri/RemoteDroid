@@ -17,6 +17,7 @@ import java.io.IOException;
 	args[1] = "hello";
 	OSCMessage msg = new OSCMessage("/sayhello", args);
 	 try {
+	 hello
 		sender.send(msg);
 	 } catch (Exception e) {
 		 showError("Couldn't send");

@@ -4,7 +4,15 @@ import java.net.*;
 import java.io.IOException;
 import com.illposed.osc.utility.OSCByteArrayToJavaConverter;
 import com.illposed.osc.utility.OSCPacketDispatcher;
-
+import java.lang.Math; // headers MUST be above the first class
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Base64;
+ 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 /**
  * OSCPortIn is the class that listens for OSC messages.
  * <p>
@@ -34,7 +42,9 @@ import com.illposed.osc.utility.OSCPacketDispatcher;
  * @version 1.0
  */
 public class OSCPortIn extends OSCPort implements Runnable {
-
+	private static final String TAG = "OSCPort";
+	private static SecretKeySpec secretKey;
+    private static byte[] key;
 	// state for listening
 	protected boolean isListening;
 	protected OSCByteArrayToJavaConverter converter = new OSCByteArrayToJavaConverter();
@@ -63,17 +73,50 @@ public class OSCPortIn extends OSCPort implements Runnable {
 			// buffers were 1500 bytes in size, but this was
 			// increased to 1536, as this is a common MTU
 		byte[] buffer = new byte[1536];
+		byte[] buffer_new = new byte[1536];
 		DatagramPacket packet = new DatagramPacket(buffer, 1536);
 		while (isListening) {
 			try {
 				socket.receive(packet);
-				OSCPacket oscPacket = converter.convert(buffer, packet.getLength());
+				System.out.println(TAG+" Received "+String.valueOf(buffer));
+				buffer_new = encrypt(buffer);
+				System.out.println(buffer_new);
+				OSCPacket oscPacket = converter.convert(buffer_new, packet.getLength());
 				dispatcher.dispatchPacket(oscPacket);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
+	public static void setKey(String myKey) 
+    {
+        MessageDigest sha = null;
+        try {
+            key = myKey.getBytes("UTF-8");
+            sha = MessageDigest.getInstance("SHA-1");
+            key = sha.digest(key);
+            key = Arrays.copyOf(key, 16); 
+            secretKey = new SecretKeySpec(key, "AES");
+        } 
+        catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } 
+        catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+	
+	static byte[] encrypt(byte[] or)
+	  {
+	    byte[] enc = new byte[or.length];
+	    for (int i = 0; i < or.length; i++) {
+
+				enc[i] = (byte) (or[i]^2);
+			}
+	    
+	    return enc;
+	  }
+	
 	
 	/**
 	 * Start listening for incoming OSCPackets

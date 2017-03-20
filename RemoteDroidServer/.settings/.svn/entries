@@ -2,7 +2,7 @@
 
 dir
 45
-http://remotedroid.googlecode.com/svn/trunk/RemoteDroidServer/.settings
+http://remotedroid.googlecode.com/svn/branches/remotedroidProUI/RemoteDroidServer/.settings
 http://remotedroid.googlecode.com/svn
 
 
@@ -32,7 +32,7 @@ file
 
 
 
-2016-02-12T21:16:17.480099Z
+2016-02-12T21:16:17.972088Z
 368ca5b5c60c9d539de0ff9cf7b06bbf
 2010-01-06T09:44:30.943189Z
 3
