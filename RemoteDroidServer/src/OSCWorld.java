@@ -25,28 +25,19 @@ import com.illposed.osc.OSCPortIn;
  */
 
 public class OSCWorld extends World {
-	//
-	private static final float sensitivity = 1.6f;
 
-	//
+	private static final float sensitivity = 1.6f;
 	private OSCPortIn receiver;
-	//
 	private Robot robot;
-	//
 	private boolean shifted = false;
 	private boolean modified = false;
-	//
 	private KeyTranslator translator;
-	//
 	private GraphicsDevice[] gDevices;
 	private Rectangle[] gBounds;
-	//
 	private Label lbDebug;
-	//
 	private int scrollMod = -1;
-	//
-	private float xLeftover = 0; //for subpixel mouse accuracy
-	private float yLeftover = 0; //for subpixel mouse accuracy
+	private float xLeftover = 0; // for subpixel mouse accuracy
+	private float yLeftover = 0; // for subpixel mouse accuracy
 
 	public OSCWorld() {
 		super();
@@ -57,9 +48,9 @@ public class OSCWorld extends World {
 		try {
 			this.robot = new Robot();
 			this.robot.setAutoDelay(5);
-			//
+
 			this.translator = new KeyTranslator();
-			//
+
 			InetAddress local = InetAddress.getLocalHost();
 			if (local.isLoopbackAddress()) {
 				this.receiver = new OSCPortIn(OSCPort.defaultSCOSCPort());
@@ -70,13 +61,13 @@ public class OSCWorld extends World {
 				public void acceptMessage(java.util.Date time, OSCMessage message) {
 					Object[] args = message.getArguments();
 					if (args.length == 3) {
-						mouseEvent(Integer.parseInt(args[0].toString()), Float.parseFloat(args[1]
-								.toString()), Float.parseFloat(args[2].toString()));
+						mouseEvent(Integer.parseInt(args[0].toString()), Float.parseFloat(args[1].toString()),
+								Float.parseFloat(args[2].toString()));
 					}
 				}
 			};
 			this.receiver.addListener("/mouse", listener);
-			//
+
 			listener = new OSCListener() {
 				public void acceptMessage(java.util.Date time, OSCMessage message) {
 					Object[] args = message.getArguments();
@@ -86,7 +77,7 @@ public class OSCWorld extends World {
 				}
 			};
 			this.receiver.addListener("/leftbutton", listener);
-			//
+
 			listener = new OSCListener() {
 				public void acceptMessage(java.util.Date time, OSCMessage message) {
 					Object[] args = message.getArguments();
@@ -96,17 +87,17 @@ public class OSCWorld extends World {
 				}
 			};
 			this.receiver.addListener("/rightbutton", listener);
-			//
+
 			listener = new OSCListener() {
 				public void acceptMessage(java.util.Date time, OSCMessage message) {
 					Object[] args = message.getArguments();
 					if (args.length == 3) {
-						keyboardEvent(Integer.parseInt(args[0].toString()), Integer
-								.parseInt(args[1].toString()), args[2].toString());
+						keyboardEvent(Integer.parseInt(args[0].toString()), Integer.parseInt(args[1].toString()),
+								args[2].toString());
 					}
-					if (args.length == 2) { //handle raw keyboard event, no translations
-						keyboardEvent(Integer.parseInt(args[0].toString()), Integer
-								.parseInt(args[1].toString()));
+					if (args.length == 2) { // handle raw keyboard event, no
+											// translations
+						keyboardEvent(Integer.parseInt(args[0].toString()), Integer.parseInt(args[1].toString()));
 					}
 				}
 			};
@@ -121,20 +112,19 @@ public class OSCWorld extends World {
 				}
 			};
 			this.receiver.addListener("/wheel", listener);
-			//
+
 			listener = new OSCListener() {
 				public void acceptMessage(java.util.Date time, OSCMessage message) {
 					Object[] args = message.getArguments();
 					if (args.length == 6) {
-						orientEvent(Float.parseFloat(args[0].toString()), Float.parseFloat(args[1]
-								.toString()), Float.parseFloat(args[2].toString()), Float
-								.parseFloat(args[3].toString()), Float.parseFloat(args[4]
-								.toString()), Float.parseFloat(args[5].toString()));
+						orientEvent(Float.parseFloat(args[0].toString()), Float.parseFloat(args[1].toString()),
+								Float.parseFloat(args[2].toString()), Float.parseFloat(args[3].toString()),
+								Float.parseFloat(args[4].toString()), Float.parseFloat(args[5].toString()));
 					}
 				}
 			};
 			this.receiver.addListener("/orient", listener);
-			//
+
 			this.receiver.startListening();
 			// debug
 			GlobalData.oFrame.addKeyListener(new KeyListener() {
@@ -150,7 +140,7 @@ public class OSCWorld extends World {
 
 				}
 			});
-			//
+
 			this.gDevices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
 			int l = this.gDevices.length;
 			this.gBounds = new Rectangle[l];
@@ -159,7 +149,7 @@ public class OSCWorld extends World {
 			}
 			// GlobalData.oBase.pause();
 			this.initUI();
-			//
+
 			if (System.getProperty("os.name").compareToIgnoreCase("Mac OS X") == 0) {
 				// hack for robot class bug.
 				this.scrollMod = 1;
@@ -174,21 +164,19 @@ public class OSCWorld extends World {
 	private void nativeKeyEvent(KeyEvent ev) {
 	}
 
-	//
-
 	private void mouseEvent(int type, float xOffset, float yOffset) {
 		if (type == 2) {
 			PointerInfo info = MouseInfo.getPointerInfo();
 			if (info != null) {
 				java.awt.Point p = info.getLocation();
-				//for sub-pixel mouse accuracy, save leftover rounding value
+				// for sub-pixel mouse accuracy, save leftover rounding value
 				float ox = (xOffset * sensitivity) + xLeftover;
-				float oy = (yOffset * sensitivity) + yLeftover;				
+				float oy = (yOffset * sensitivity) + yLeftover;
 				int ix = Math.round(ox);
 				int iy = Math.round(oy);
-				xLeftover = ox-ix;
-				yLeftover = oy-iy;
-				//
+				xLeftover = ox - ix;
+				yLeftover = oy - iy;
+
 				p.x += ix;
 				p.y += iy;
 				int l = this.gBounds.length;
@@ -198,11 +186,15 @@ public class OSCWorld extends World {
 						break;
 					}
 				}
-				
-				try{
-					this.robot.mouseMove(p.x, p.y);//for systems with quirky bounds checking, allow mouse to move smoothly along to and left edges
-				}catch(Exception e){}
-				
+
+				try {
+					this.robot.mouseMove(p.x, p.y);// for systems with quirky
+													// bounds checking, allow
+													// mouse to move smoothly
+													// along to and left edges
+				} catch (Exception e) {
+				}
+
 			}
 		}
 	}
@@ -215,12 +207,12 @@ public class OSCWorld extends World {
 		}
 		switch (type) {
 		case 0:
-			//
+
 			this.robot.mousePress(button);
 			this.robot.waitForIdle();
 			break;
 		case 1:
-			//
+
 			this.robot.mouseRelease(button);
 			this.robot.waitForIdle();
 			break;
@@ -231,7 +223,7 @@ public class OSCWorld extends World {
 		this.robot.mouseWheel(-dir * this.scrollMod);
 	}
 
-	//Raw keyboard event, no translation, intercepted when argument count is 2
+	// Raw keyboard event, no translation, intercepted when argument count is 2
 	private void keyboardEvent(int type, int keycode) {
 		switch (type) {
 		case 0:
@@ -252,13 +244,13 @@ public class OSCWorld extends World {
 				this.keyRelease(keycode);
 			}
 			break;
-		}		
+		}
 	}
-	
+
 	private void keyboardEvent(int type, int keycode, String value) {
-		//
+
 		KeyCodeData data;
-		
+
 		switch (type) {
 		case 0:
 			// key down
@@ -268,7 +260,7 @@ public class OSCWorld extends World {
 				buttonEvent(0, 0);
 				return;
 			}
-			//
+
 			data = (KeyCodeData) translator.codes.get(new Integer(keycode));
 			// it's not a mouse event, treat as key
 			if (this.translator.isModifier(keycode)) {
@@ -289,15 +281,16 @@ public class OSCWorld extends World {
 				if (this.modified) {
 					if (data.modshifted && !this.shifted) {
 						this.keyPress(KeyEvent.VK_SHIFT);
-						//System.out.println("Keycode:"+String.valueOf(keycode)+", local:"+String.valueOf(data.localcode));
+						// System.out.println("Keycode:"+String.valueOf(keycode)+",
+						// local:"+String.valueOf(data.localcode));
 					}
 					if (!data.modshifted && this.shifted) {
 						this.keyRelease(KeyEvent.VK_SHIFT);
 					}
-					//
+
 					if (data.modifiedcode != -1)
 						this.keyPress(data.modifiedcode);
-					//
+
 					if (data.modshifted && !this.shifted) {
 						this.keyRelease(KeyEvent.VK_SHIFT);
 					}
@@ -325,7 +318,7 @@ public class OSCWorld extends World {
 				buttonEvent(1, 0);
 				return;
 			}
-			//
+
 			data = (KeyCodeData) translator.codes.get(new Integer(keycode));
 			// it's not a mouse event, treat as key
 			if (this.translator.isModifier(keycode)) {
@@ -350,10 +343,10 @@ public class OSCWorld extends World {
 					if (!data.modshifted && this.shifted) {
 						this.keyRelease(KeyEvent.VK_SHIFT);
 					}
-					//
+
 					if (data.modifiedcode != -1)
 						this.keyRelease(data.modifiedcode);
-					//
+
 					if (data.modshifted && !this.shifted) {
 						this.keyRelease(KeyEvent.VK_SHIFT);
 					}
@@ -406,10 +399,10 @@ public class OSCWorld extends World {
 		this.addValue(builder, "rawz", rawz);
 		this.addValue(builder, "rawx", rawx);
 		this.addValue(builder, "rawy", rawy);
-		//
+
 		double len = Math.sqrt(x * x + y * y + z * z);
 		this.addValue(builder, "len", (float) len);
-		//
+
 		this.lbDebug.setText(builder.toString());
 	}
 
@@ -425,8 +418,6 @@ public class OSCWorld extends World {
 		builder.append(value);
 		builder.append("\n");
 	}
-
-	//
 
 	public void update(float elapsed) {
 

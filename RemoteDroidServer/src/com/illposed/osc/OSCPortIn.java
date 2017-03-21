@@ -87,6 +87,7 @@ public class OSCPortIn extends OSCPort implements Runnable {
 				e.printStackTrace();
 			}
 		}
+		
 	}
 	public static void setKey(String myKey) 
     {
