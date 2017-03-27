@@ -4,15 +4,6 @@ import java.net.*;
 import java.io.IOException;
 import com.illposed.osc.utility.OSCByteArrayToJavaConverter;
 import com.illposed.osc.utility.OSCPacketDispatcher;
-import java.lang.Math; // headers MUST be above the first class
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.Base64;
- 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
 /**
  * OSCPortIn is the class that listens for OSC messages.
  * <p>
@@ -43,7 +34,7 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class OSCPortIn extends OSCPort implements Runnable {
 	private static final String TAG = "OSCPort";
-	private static SecretKeySpec secretKey;
+	
     private static byte[] key;
 	// state for listening
 	protected boolean isListening;
@@ -89,25 +80,8 @@ public class OSCPortIn extends OSCPort implements Runnable {
 		}
 		
 	}
-	public static void setKey(String myKey) 
-    {
-        MessageDigest sha = null;
-        try {
-            key = myKey.getBytes("UTF-8");
-            sha = MessageDigest.getInstance("SHA-1");
-            key = sha.digest(key);
-            key = Arrays.copyOf(key, 16); 
-            secretKey = new SecretKeySpec(key, "AES");
-        } 
-        catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } 
-        catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
 	
-	static byte[] encrypt(byte[] or)
+	private static byte[] encrypt(byte[] or)
 	  {
 	    byte[] enc = new byte[or.length];
 	    for (int i = 0; i < or.length; i++) {
