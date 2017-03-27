@@ -193,6 +193,13 @@ public class OSCWorld extends World {
 													// mouse to move smoothly
 													// along to and left edges
 				} catch (Exception e) {
+					Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+
+						public void uncaughtException(Thread t, Throwable e) {
+							// TODO Auto-generated method stub
+							e.printStackTrace();
+						}
+					});
 				}
 
 			}
@@ -281,8 +288,7 @@ public class OSCWorld extends World {
 				if (this.modified) {
 					if (data.modshifted && !this.shifted) {
 						this.keyPress(KeyEvent.VK_SHIFT);
-						// System.out.println("Keycode:"+String.valueOf(keycode)+",
-						// local:"+String.valueOf(data.localcode));
+
 					}
 					if (!data.modshifted && this.shifted) {
 						this.keyRelease(KeyEvent.VK_SHIFT);
@@ -305,7 +311,13 @@ public class OSCWorld extends World {
 							this.keyPress(data.localcode);
 						}
 					} catch (IllegalArgumentException e) {
-						System.out.println("Invalid key code: " + data.localcode);
+						Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+
+							public void uncaughtException(Thread t, Throwable e) {
+								// TODO Auto-generated method stub
+								e.printStackTrace();
+							}
+						});
 					}
 				}
 			}
@@ -374,7 +386,13 @@ public class OSCWorld extends World {
 		try {
 			this.robot.keyPress(localcode);
 		} catch (IllegalArgumentException e) {
-			System.out.println("Invalid keyPress code: " + localcode);
+			Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+
+				public void uncaughtException(Thread t, Throwable e) {
+					// TODO Auto-generated method stub
+					e.printStackTrace();
+				}
+			});
 		}
 	}
 
@@ -387,7 +405,13 @@ public class OSCWorld extends World {
 		try {
 			this.robot.keyRelease(localcode);
 		} catch (IllegalArgumentException e) {
-			System.out.println("Invalid keyRelease code: " + localcode);
+			Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+
+				public void uncaughtException(Thread t, Throwable e) {
+					// TODO Auto-generated method stub
+					e.printStackTrace();
+				}
+			});
 		}
 	}
 

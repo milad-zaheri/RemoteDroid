@@ -109,13 +109,26 @@ public class AppFrame extends Frame {
 			tracker.addImage(this.imLogo, 0);
 			tracker.waitForID(0);
 		} catch (InterruptedException inex) {
+			Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 
+				public void uncaughtException(Thread t, Throwable e) {
+					// TODO Auto-generated method stub
+					e.printStackTrace();
+				}
+			});
 		}
 		try {
 			this.imHelp = this.getImage("helpphoto.jpg");
 			tracker.addImage(this.imHelp, 1);
 			tracker.waitForID(1);
 		} catch (InterruptedException ie) {
+			Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+
+				public void uncaughtException(Thread t, Throwable e) {
+					// TODO Auto-generated method stub
+					e.printStackTrace();
+				}
+			});
 		}
 
 		this.fontTitle = new Font("Verdana", Font.BOLD, 16);
