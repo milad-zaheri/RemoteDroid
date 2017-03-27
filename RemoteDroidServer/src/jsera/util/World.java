@@ -5,8 +5,7 @@ import java.awt.*;
 public abstract class World implements Updatable {
 	protected int ID;
 	protected static UIDHandler oUID = new UIDHandler();
-	//
-	protected String[] aImages;
+	
 	
 	public World() {
 		this.ID = oUID.getUID();
