@@ -1,12 +1,13 @@
 import com.illposed.osc.OSCListener;
 import com.illposed.osc.OSCMessage;
 
+import jsera.util.World;
+
 public class OSCListenerFactory {
-	static OSCListener listener;
 	
 	
-	public static OSCListener getListener(String aAddress, OSCWorld world) {
-		
+	public static OSCListener getListener(String aAddress, World world) {
+		world = returnType(world);
 		if(aAddress.equals("/mouse"))
 			return mouse(world);
 		else if(aAddress.equals("/leftbutton"))
@@ -21,7 +22,13 @@ public class OSCListenerFactory {
 		return orient(world);
 	}
 	
-	private static OSCListener mouse(final OSCWorld world) {
+	private static World returnType(World world) {
+		if(world instanceof OSCWorld)
+			return (OSCWorld)world;
+		return world;
+	}
+	
+	private static OSCListener mouse(final World world) {
 		OSCListener listener = new OSCListener() {
 			public void acceptMessage(java.util.Date time, OSCMessage message) {
 				Object[] args = message.getArguments();
@@ -34,7 +41,7 @@ public class OSCListenerFactory {
 		return listener;
 	}
 	
-	private static OSCListener leftButton(final OSCWorld world) {
+	private static OSCListener leftButton(final World world) {
 		OSCListener listener = new OSCListener() {
 			public void acceptMessage(java.util.Date time, OSCMessage message) {
 				Object[] args = message.getArguments();
@@ -46,7 +53,7 @@ public class OSCListenerFactory {
 		return listener;
 	}
 	
-	private static OSCListener rightButton(final OSCWorld world) {
+	private static OSCListener rightButton(final World world) {
 		OSCListener listener = new OSCListener() {
 			public void acceptMessage(java.util.Date time, OSCMessage message) {
 				Object[] args = message.getArguments();
@@ -58,7 +65,7 @@ public class OSCListenerFactory {
 		return listener;
 	}
 	
-	private static OSCListener keyboard(final OSCWorld world) {
+	private static OSCListener keyboard(final World world) {
 		OSCListener listener = new OSCListener() {
 			public void acceptMessage(java.util.Date time, OSCMessage message) {
 				Object[] args = message.getArguments();
@@ -75,7 +82,7 @@ public class OSCListenerFactory {
 		return listener;
 	}
 	
-	private static OSCListener wheel(final OSCWorld world) {
+	private static OSCListener wheel(final World world) {
 		OSCListener listener = new OSCListener() {
 			public void acceptMessage(java.util.Date time, OSCMessage message) {
 				Object[] args = message.getArguments();
@@ -87,7 +94,7 @@ public class OSCListenerFactory {
 		return listener;
 	}
 	
-	private static OSCListener orient(final OSCWorld world) {
+	private static OSCListener orient(final World world) {
 		OSCListener listener = new OSCListener() {
 			public void acceptMessage(java.util.Date time, OSCMessage message) {
 				Object[] args = message.getArguments();

@@ -2,10 +2,11 @@ package jsera.util;
 
 import java.awt.*;
 
+import com.illposed.osc.OSCPortIn;
+
 public abstract class World implements Updatable {
 	protected int ID;
 	protected static UIDHandler oUID = new UIDHandler();
-	
 	
 	public World() {
 		this.ID = oUID.getUID();
@@ -48,4 +49,13 @@ public abstract class World implements Updatable {
 	// seperate initialization thing
 	public void init() {
 	}
+	
+	public abstract void start();
+	public abstract OSCPortIn getReceiver();
+	public abstract void mouseEvent(int type, float xOffset, float yOffset);
+	public abstract void buttonEvent(int type, int button);
+	public abstract void scrollEvent(int dir);
+	public abstract void keyboardEvent(int type, int keycode);
+	public abstract void keyboardEvent(int type, int keycode, String value);
+	public abstract void orientEvent(float z, float x, float y, float rawz, float rawx, float rawy);
 }

@@ -1,16 +1,16 @@
 import com.illposed.osc.OSCListener;
-import com.illposed.osc.OSCPortIn;
+import jsera.util.World;
 
 public class OSCWorldBuilder {
 	
-	private OSCWorld world;
+	private World world;
 	
-	public  OSCWorldBuilder(OSCWorld newWorld) {
+	public  OSCWorldBuilder(World newWorld) {
 		world = newWorld;
 	}
 	
 	public boolean addListener(String anAdderess){
-		world.receiver.addListener(anAdderess, createListener(anAdderess));
+		world.getReceiver().addListener(anAdderess, createListener(anAdderess));
 		return true;
 	}
 	
@@ -21,7 +21,7 @@ public class OSCWorldBuilder {
 	
 	public void startWorld() {
 		world.start();
-	}
 
+	}
 
 }

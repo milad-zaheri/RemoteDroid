@@ -41,9 +41,9 @@ public class OSCWorld extends World {
 
 	public OSCWorld() {
 		super();
-
 	}
 	
+	@Override
 	public void start() {
 		try {
 			this.robot = new Robot();
@@ -105,7 +105,7 @@ public class OSCWorld extends World {
 	private void nativeKeyEvent(KeyEvent ev) {
 	}
 
-	void mouseEvent(int type, float xOffset, float yOffset) {
+	public void mouseEvent(int type, float xOffset, float yOffset) {
 		if (type == 2) {
 			PointerInfo info = MouseInfo.getPointerInfo();
 			if (info != null) {
@@ -147,7 +147,7 @@ public class OSCWorld extends World {
 		}
 	}
 
-	void buttonEvent(int type, int button) {
+	public void buttonEvent(int type, int button) {
 		if (button == 0) {
 			button = InputEvent.BUTTON1_MASK;
 		} else if (button == 2) {
@@ -167,12 +167,12 @@ public class OSCWorld extends World {
 		}
 	}
 
-	void scrollEvent(int dir) {
+	public void scrollEvent(int dir) {
 		this.robot.mouseWheel(-dir * this.scrollMod);
 	}
 
 	// Raw keyboard event, no translation, intercepted when argument count is 2
-	void keyboardEvent(int type, int keycode) {
+	public void keyboardEvent(int type, int keycode) {
 		switch (type) {
 		case 0:
 			// key down
@@ -195,7 +195,7 @@ public class OSCWorld extends World {
 		}
 	}
 
-	void keyboardEvent(int type, int keycode, String value) {
+	public void keyboardEvent(int type, int keycode, String value) {
 
 		KeyCodeData data;
 
@@ -356,7 +356,7 @@ public class OSCWorld extends World {
 		}
 	}
 
-	void orientEvent(float z, float x, float y, float rawz, float rawx, float rawy) {
+	public void orientEvent(float z, float x, float y, float rawz, float rawx, float rawy) {
 		StringBuilder builder = new StringBuilder();
 		this.addValue(builder, "z", z);
 		this.addValue(builder, "x", x);
@@ -386,5 +386,10 @@ public class OSCWorld extends World {
 
 	public void update(float elapsed) {
 
+	}
+
+	@Override
+	public OSCPortIn getReceiver() {
+		return receiver;
 	}
 }
