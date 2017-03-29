@@ -26,6 +26,7 @@ import com.illposed.osc.OSCPortIn;
 
 public class OSCWorld extends World {
 
+	private static OSCWorld instance = new OSCWorld();
 	private static final float sensitivity = 1.6f;
 	private OSCPortIn receiver;
 	private Robot robot;
@@ -43,6 +44,17 @@ public class OSCWorld extends World {
 		super();
 
 	}
+	
+	/**
+	 * If the instance was not previously created, create it. Then return the instance
+	 * @return instance of this class
+	 */
+	public static OSCWorld getInstance(){
+	      if (instance == null)
+	      instance = new OSCWorld();
+	      return instance;
+	   }
+
 
 	public void onEnter() {
 		try {
