@@ -26,9 +26,8 @@ import com.illposed.osc.OSCPortIn;
 
 public class OSCWorld extends World {
 
-	private static OSCWorld instance = new OSCWorld();
 	private static final float sensitivity = 1.6f;
-	private OSCPortIn receiver;
+	public OSCPortIn receiver;
 	private Robot robot;
 	private boolean shifted = false;
 	private boolean modified = false;
@@ -45,18 +44,7 @@ public class OSCWorld extends World {
 
 	}
 	
-	/**
-	 * If the instance was not previously created, create it. Then return the instance
-	 * @return instance of this class
-	 */
-	public static OSCWorld getInstance(){
-	      if (instance == null)
-	      instance = new OSCWorld();
-	      return instance;
-	   }
-
-
-	public void onEnter() {
+	public void start() {
 		try {
 			this.robot = new Robot();
 			this.robot.setAutoDelay(5);
@@ -69,74 +57,15 @@ public class OSCWorld extends World {
 			} else {
 				this.receiver = new OSCPortIn(OSCPort.defaultSCOSCPort());
 			}
-			OSCListener listener = new OSCListener() {
-				public void acceptMessage(java.util.Date time, OSCMessage message) {
-					Object[] args = message.getArguments();
-					if (args.length == 3) {
-						mouseEvent(Integer.parseInt(args[0].toString()), Float.parseFloat(args[1].toString()),
-								Float.parseFloat(args[2].toString()));
-					}
-				}
-			};
-			this.receiver.addListener("/mouse", listener);
+		}
+		 catch (Exception ex) {
 
-			listener = new OSCListener() {
-				public void acceptMessage(java.util.Date time, OSCMessage message) {
-					Object[] args = message.getArguments();
-					if (args.length == 1) {
-						buttonEvent(Integer.parseInt(args[0].toString()), 0);
-					}
-				}
-			};
-			this.receiver.addListener("/leftbutton", listener);
+			}
+	}
 
-			listener = new OSCListener() {
-				public void acceptMessage(java.util.Date time, OSCMessage message) {
-					Object[] args = message.getArguments();
-					if (args.length == 1) {
-						buttonEvent(Integer.parseInt(args[0].toString()), 2);
-					}
-				}
-			};
-			this.receiver.addListener("/rightbutton", listener);
-
-			listener = new OSCListener() {
-				public void acceptMessage(java.util.Date time, OSCMessage message) {
-					Object[] args = message.getArguments();
-					if (args.length == 3) {
-						keyboardEvent(Integer.parseInt(args[0].toString()), Integer.parseInt(args[1].toString()),
-								args[2].toString());
-					}
-					if (args.length == 2) { // handle raw keyboard event, no
-											// translations
-						keyboardEvent(Integer.parseInt(args[0].toString()), Integer.parseInt(args[1].toString()));
-					}
-				}
-			};
-			this.receiver.addListener("/keyboard", listener);
-			//
-			listener = new OSCListener() {
-				public void acceptMessage(java.util.Date time, OSCMessage message) {
-					Object[] args = message.getArguments();
-					if (args.length == 1) {
-						scrollEvent(Integer.parseInt(args[0].toString()));
-					}
-				}
-			};
-			this.receiver.addListener("/wheel", listener);
-
-			listener = new OSCListener() {
-				public void acceptMessage(java.util.Date time, OSCMessage message) {
-					Object[] args = message.getArguments();
-					if (args.length == 6) {
-						orientEvent(Float.parseFloat(args[0].toString()), Float.parseFloat(args[1].toString()),
-								Float.parseFloat(args[2].toString()), Float.parseFloat(args[3].toString()),
-								Float.parseFloat(args[4].toString()), Float.parseFloat(args[5].toString()));
-					}
-				}
-			};
-			this.receiver.addListener("/orient", listener);
-
+	public void onEnter() {
+		try {
+			
 			this.receiver.startListening();
 			// debug
 			GlobalData.oFrame.addKeyListener(new KeyListener() {
@@ -176,18 +105,18 @@ public class OSCWorld extends World {
 	private void nativeKeyEvent(KeyEvent ev) {
 	}
 
-	private void mouseEvent(int type, float xOffset, float yOffset) {
+	void mouseEvent(int type, float xOffset, float yOffset) {
 		if (type == 2) {
 			PointerInfo info = MouseInfo.getPointerInfo();
 			if (info != null) {
 				java.awt.Point p = info.getLocation();
 				// for sub-pixel mouse accuracy, save leftover rounding value
-				float ox = (xOffset * sensitivity) + xLeftover;
-				float oy = (yOffset * sensitivity) + yLeftover;
+				float ox = (xOffset * this.sensitivity) + this.xLeftover;
+				float oy = (yOffset * this.sensitivity) + this.yLeftover;
 				int ix = Math.round(ox);
 				int iy = Math.round(oy);
-				xLeftover = ox - ix;
-				yLeftover = oy - iy;
+				this.xLeftover = ox - ix;
+				this.yLeftover = oy - iy;
 
 				p.x += ix;
 				p.y += iy;
@@ -218,7 +147,7 @@ public class OSCWorld extends World {
 		}
 	}
 
-	private void buttonEvent(int type, int button) {
+	void buttonEvent(int type, int button) {
 		if (button == 0) {
 			button = InputEvent.BUTTON1_MASK;
 		} else if (button == 2) {
@@ -238,12 +167,12 @@ public class OSCWorld extends World {
 		}
 	}
 
-	private void scrollEvent(int dir) {
+	void scrollEvent(int dir) {
 		this.robot.mouseWheel(-dir * this.scrollMod);
 	}
 
 	// Raw keyboard event, no translation, intercepted when argument count is 2
-	private void keyboardEvent(int type, int keycode) {
+	void keyboardEvent(int type, int keycode) {
 		switch (type) {
 		case 0:
 			// key down
@@ -266,7 +195,7 @@ public class OSCWorld extends World {
 		}
 	}
 
-	private void keyboardEvent(int type, int keycode, String value) {
+	void keyboardEvent(int type, int keycode, String value) {
 
 		KeyCodeData data;
 
@@ -280,7 +209,7 @@ public class OSCWorld extends World {
 				return;
 			}
 
-			data = (KeyCodeData) translator.codes.get(new Integer(keycode));
+			data = (KeyCodeData) this.translator.codes.get(new Integer(keycode));
 			// it's not a mouse event, treat as key
 			if (this.translator.isModifier(keycode)) {
 				this.modified = true;
@@ -343,7 +272,7 @@ public class OSCWorld extends World {
 				return;
 			}
 
-			data = (KeyCodeData) translator.codes.get(new Integer(keycode));
+			data = (KeyCodeData) this.translator.codes.get(new Integer(keycode));
 			// it's not a mouse event, treat as key
 			if (this.translator.isModifier(keycode)) {
 				this.modified = false;
@@ -427,7 +356,7 @@ public class OSCWorld extends World {
 		}
 	}
 
-	private void orientEvent(float z, float x, float y, float rawz, float rawx, float rawy) {
+	void orientEvent(float z, float x, float y, float rawz, float rawx, float rawy) {
 		StringBuilder builder = new StringBuilder();
 		this.addValue(builder, "z", z);
 		this.addValue(builder, "x", x);

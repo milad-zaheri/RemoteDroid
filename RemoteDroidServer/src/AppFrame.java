@@ -137,7 +137,15 @@ public class AppFrame extends Frame {
 		this.setForeground(Color.WHITE);
 		this.timer = new Timer(500, new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				world = OSCWorld.getInstance(); //(Milad) we make sure that we only have one server instance
+				world = new OSCWorld(); 
+				OSCWorldBuilder worldBuilder = new OSCWorldBuilder(world); 
+				worldBuilder.startWorld();
+				worldBuilder.addListener("/mouse");
+				worldBuilder.addListener("/leftbutton");
+				worldBuilder.addListener("/rightbutton");
+				worldBuilder.addListener("/keyboard");
+				worldBuilder.addListener("/wheel");
+				worldBuilder.addListener("/orient");
 				world.onEnter();
 				repaint();
 				timer.stop();
