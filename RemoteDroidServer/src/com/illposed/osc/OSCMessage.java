@@ -1,6 +1,8 @@
 package com.illposed.osc;
 
+import java.util.Date;
 import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Vector;
 
 import com.illposed.osc.utility.*;
@@ -102,28 +104,24 @@ public class OSCMessage extends OSCPacket {
 	}
 
 	/**
- 	 * Convert the arguments into a byte array. Used internally.
-	 * @param stream OscPacketByteArrayConverter
-	 */
-	protected void computeArgumentsByteArray(OSCJavaToByteArrayConverter stream) {
-		stream.write(',');
-		if (null == arguments)
-			return;
-		stream.writeTypes(arguments);
-		Enumeration en = arguments.elements();
-		while (en.hasMoreElements()) {
-			stream.write(en.nextElement());
-		}
-	}
-
-	/**
 	 * Convert the message into a byte array. Used internally.
 	 * @param stream OscPacketByteArrayConverter
 	 */
 	protected void computeByteArray(OSCJavaToByteArrayConverter stream) {
 		computeAddressByteArray(stream);
-		computeArgumentsByteArray(stream);
+		stream.computeArgumentsByteArray(arguments);
 		byteArray = stream.toByteArray();
+	}
+
+	public void dispatchMessage(Date time, Hashtable addressToClassTable) {
+		Enumeration keys = addressToClassTable.keys();
+		while (keys.hasMoreElements()) {
+			String key = keys.nextElement().toString();
+			if (key.equals(getAddress())) {
+				OSCListener listener = (OSCListener) addressToClassTable.get(key);
+				listener.acceptMessage(time, this);
+			}
+		}
 	}
 
 }

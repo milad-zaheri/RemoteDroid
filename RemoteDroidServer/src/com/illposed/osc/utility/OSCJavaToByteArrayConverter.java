@@ -337,5 +337,20 @@ public class OSCJavaToByteArrayConverter {
 			throw new RuntimeException("You're screwed: IOException writing to a ByteArrayOutputStream");
 		}
 	}
+
+	/**
+	 * Convert the arguments into a byte array. Used internally.
+	 * @param arguments
+	 */
+	public void computeArgumentsByteArray(Vector arguments) {
+		write(',');
+		if (null == arguments)
+			return;
+		writeTypes(arguments);
+		Enumeration en = arguments.elements();
+		while (en.hasMoreElements()) {
+			write(en.nextElement());
+		}
+	}
 }
 

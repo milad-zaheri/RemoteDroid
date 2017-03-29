@@ -156,4 +156,12 @@ public class OSCBundle extends OSCPacket {
 		byteArray = stream.toByteArray();
 	}
 
+	public void dispatchBundle(OSCPacketDispatcher oSCPacketDispatcher) {
+		Date timestamp = getTimestamp();
+		OSCPacket[] packets = getPackets();
+		for (int i = 0; i < packets.length; i++) {
+			oSCPacketDispatcher.dispatchPacket(packets[i], timestamp);
+		}
+	}
+
 }
