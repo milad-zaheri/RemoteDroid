@@ -89,13 +89,17 @@ public class OSCByteArrayToJavaConverter {
 			return message;
 		}
 		moveToFourByteBoundry();
+		OSCMessage m = convertMessageExtracted(message, types);
+		return message;
+	}
+
+	private OSCMessage convertMessageExtracted(OSCMessage message, char[] types) {
 		for (int i = 0; i < types.length; ++i) {
 			if ('[' == types[i]) {
-				// we're looking at an array -- read it in
 				message.addArgument(readArray(types, ++i));
-				// then increment i to the end of the array
-				while (']' != types[i])
+				while (']' != types[i]) {
 					i++;
+				}
 			} else
 				message.addArgument(readArgument(types[i]));
 		}

@@ -164,4 +164,12 @@ public class OSCBundle extends OSCPacket {
 		}
 	}
 
+	public void dispatchPacket(OSCPacketDispatcher oSCPacketDispatcher) {
+		this.dispatchBundle(oSCPacketDispatcher);
+	}
+
+	public void dispatchPacket(Date timestamp, OSCPacketDispatcher oSCPacketDispatcher) {
+		this.dispatchBundle(oSCPacketDispatcher);
+	}
+
 }

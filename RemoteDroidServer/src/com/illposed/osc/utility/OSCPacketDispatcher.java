@@ -37,20 +37,18 @@ public class OSCPacketDispatcher {
 	}
 	
 	public void dispatchPacket(OSCPacket packet) {
-		if (packet instanceof OSCBundle)
-			((OSCBundle) packet).dispatchBundle(this);
-		else
-			dispatchMessage((OSCMessage) packet);
+		packet.dispatchPacket(this);
 	}
 	
 	public void dispatchPacket(OSCPacket packet, Date timestamp) {
-		if (packet instanceof OSCBundle)
-			((OSCBundle) packet).dispatchBundle(this);
-		else
-			((OSCMessage) packet).dispatchMessage(timestamp, addressToClassTable);
+		packet.dispatchPacket(timestamp, this);
 	}
 	
-	private void dispatchMessage(OSCMessage message) {
+	public void dispatchMessage(OSCMessage message) {
 		message.dispatchMessage(null, addressToClassTable);
+	}
+
+	public Hashtable getAddressToClassTable() {
+		return addressToClassTable;
 	}
 }

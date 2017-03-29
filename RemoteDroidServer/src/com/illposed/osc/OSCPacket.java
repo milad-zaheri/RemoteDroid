@@ -1,6 +1,7 @@
 package com.illposed.osc;
 
 import com.illposed.osc.utility.*;
+import java.util.Date;
 
 /**
  * OSCPacket is the abstract superclass for the various
@@ -57,4 +58,8 @@ public abstract class OSCPacket {
 	protected void init() {
 		
 	}
+
+	public abstract void dispatchPacket(OSCPacketDispatcher oSCPacketDispatcher);
+
+	public abstract void dispatchPacket(Date timestamp, OSCPacketDispatcher oSCPacketDispatcher);
 }

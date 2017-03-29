@@ -124,4 +124,12 @@ public class OSCMessage extends OSCPacket {
 		}
 	}
 
+	public void dispatchPacket(OSCPacketDispatcher oSCPacketDispatcher) {
+		oSCPacketDispatcher.dispatchMessage(this);
+	}
+
+	public void dispatchPacket(Date timestamp, OSCPacketDispatcher oSCPacketDispatcher) {
+		this.dispatchMessage(timestamp, oSCPacketDispatcher.getAddressToClassTable());
+	}
+
 }
