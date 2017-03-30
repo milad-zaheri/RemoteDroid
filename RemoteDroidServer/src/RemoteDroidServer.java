@@ -13,7 +13,7 @@ public class RemoteDroidServer {
 
 	public static void main(String[] args) {
 
-		applicationFrame = new AppFrame();
+		applicationFrame = AppFrame.getInstance();
 		applicationFrame.setVisible(true);
 		applicationFrame.setResizable(false);
 		applicationFrame.setTitle("RemoteDroid Server");

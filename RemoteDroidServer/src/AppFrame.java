@@ -14,6 +14,7 @@ import javax.swing.*;
 public class AppFrame extends Frame {
 	// The AppFrame Extends Frame as it faster for native use.
 	private static final long serialVersionUID = 1L;
+	private static AppFrame instance;
 
 	public static JarFile jar;
 	public static String basePath = "";
@@ -27,7 +28,6 @@ public class AppFrame extends Frame {
 	private Timer timer;
 	private int height = 510;
 	private int width = 540;
-	private OSCWorld world;
 	private String appName = "RemoteDroid Server R2"; // added R2 so that
 														// version 2 of client
 														// will not confuse
@@ -40,6 +40,17 @@ public class AppFrame extends Frame {
 
 	private Toolkit toolkit;
 	private MediaTracker tracker;
+	
+	/**
+	 * If the instance was not previously created, create it. Then return the instance
+	*/
+
+	public static AppFrame getInstance(){
+	      if (instance == null)
+	      instance = new AppFrame();
+	      return instance;
+	   }
+
 
 	public AppFrame() {
 		super();
@@ -137,7 +148,7 @@ public class AppFrame extends Frame {
 		this.setForeground(Color.WHITE);
 		this.timer = new Timer(500, new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				world = new OSCWorld(); 
+				OSCWorld world = new OSCWorld(); 
 				OSCWorldBuilder worldBuilder = new OSCWorldBuilder(world); 
 				worldBuilder.startWorld();
 				worldBuilder.addListener("/mouse");
