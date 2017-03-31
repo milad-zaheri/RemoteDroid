@@ -11,6 +11,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+
+/**
+ * this class is responsible for 
+ * traslating the pressed key on the client side
+ * to the real kayboard keys and mouse buttons
+ *
+ */
 public class KeyTranslator {
 
 	public HashMap codes;
@@ -21,6 +28,9 @@ public class KeyTranslator {
 
 	protected Document myDoc;
 
+	/**
+	 * default constructor
+	 */
 	public KeyTranslator() {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		String sPath = "config.xml";
@@ -105,6 +115,12 @@ public class KeyTranslator {
 		}
 	}
 
+	/**
+	 * checks if the key sent from client
+	 * is a mouse click or keyboard
+	 * @param keycode
+	 * @return true if is not mouse click
+	 */
 	public boolean isModifier(int keycode) {
 
 		int modLength = this.modifiers.length;
@@ -116,6 +132,11 @@ public class KeyTranslator {
 		return false;
 	}
 
+	/**
+	 * is shift key pressed?
+	 * @param keycode
+	 * @return true if so
+	 */
 	public boolean isShift(int keycode) {
 
 		int shiftLength = this.shifts.length;
@@ -127,6 +148,11 @@ public class KeyTranslator {
 		return false;
 	}
 
+	/**
+	 * is control key pressed?
+	 * @param keycode
+	 * @return true if so
+	 */
 	public boolean isCtrl(int keycode) {
 
 		int ctrlLength = this.ctrls.length;
@@ -138,6 +164,12 @@ public class KeyTranslator {
 		return false;
 	}
 
+	/**
+	 * check if it isn't a mouse click 
+	 * (trackpad "enter" = left button)
+	 * @param keycode
+	 * @return true if so
+	 */
 	public boolean isLeftClick(int keycode) {
 
 		int leftClickLength = this.leftClicks.length;

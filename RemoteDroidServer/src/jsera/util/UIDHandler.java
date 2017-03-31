@@ -2,6 +2,10 @@ package jsera.util;
 
 import java.util.Vector;
 
+/**
+ * unused class
+ *
+ */
 public class UIDHandler {
 	private Vector openSlots = new Vector();
 	private int cID = 0;

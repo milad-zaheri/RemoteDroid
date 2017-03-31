@@ -52,6 +52,10 @@ public class AppFrame extends Frame {
 	   }
 
 
+	/**
+	 * the default constructor, which initialize
+	 * necessary data
+	 */
 	public AppFrame() {
 		super();
 		GlobalData.oFrame = this;
@@ -91,6 +95,12 @@ public class AppFrame extends Frame {
 
 	}
 
+	/**
+	 * returns an image file of the
+	 * receiving source name
+	 * @param sImage
+	 * @return
+	 */
 	public Image getImage(String sImage) {
 		Image imReturn = null;
 		try {
@@ -114,6 +124,10 @@ public class AppFrame extends Frame {
 		return imReturn;
 	}
 
+	/**
+	 * this method will create all the visual
+	 * properties pf the frame and start the worlds
+	 */
 	public void init() {
 		try {
 			this.imLogo = this.getImage("icon.gif");
@@ -166,6 +180,9 @@ public class AppFrame extends Frame {
 
 	}
 
+	/**
+	 * 
+	 */
 	public void paint(Graphics g) {
 		g.setColor(this.getBackground());
 		g.fillRect(0, 0, this.width, this.height);

@@ -18,7 +18,8 @@ import com.illposed.osc.OSCPort;
 import com.illposed.osc.OSCPortIn;
 
 /**
- * 
+ * a presentation of world class
+ * this class is the main component
  * @author jsera
  * 
  * 
@@ -42,7 +43,9 @@ public class OSCWorld extends World {
 	public OSCWorld() {
 		super();
 	}
-	
+	/**
+	 * initialize necessary variables and objects
+	 */
 	@Override
 	public void start() {
 		try {
@@ -63,6 +66,10 @@ public class OSCWorld extends World {
 			}
 	}
 
+	/**
+	 * lets to start the worl by listening
+	 * to the commands
+	 */
 	public void onEnter() {
 		try {
 			
@@ -100,11 +107,17 @@ public class OSCWorld extends World {
 		}
 	}
 
-	// check keyboard events
 
+	/**
+	 * check keyboard events
+	 * @param ev
+	 */
 	private void nativeKeyEvent(KeyEvent ev) {
 	}
 
+	/**
+	 * execute mouse commands
+	 */
 	public void mouseEvent(int type, float xOffset, float yOffset) {
 		if (type == 2) {
 			PointerInfo info = MouseInfo.getPointerInfo();
@@ -147,6 +160,9 @@ public class OSCWorld extends World {
 		}
 	}
 
+	/**
+	 * exexute mouse button commands
+	 */
 	public void buttonEvent(int type, int button) {
 		if (button == 0) {
 			button = InputEvent.BUTTON1_MASK;
@@ -167,11 +183,17 @@ public class OSCWorld extends World {
 		}
 	}
 
+	/**
+	 * scroll the mouse
+	 */
 	public void scrollEvent(int dir) {
 		this.robot.mouseWheel(-dir * this.scrollMod);
 	}
 
-	// Raw keyboard event, no translation, intercepted when argument count is 2
+	
+	/**
+	 * Raw keyboard event, no translation, intercepted when argument count is 2
+	 */
 	public void keyboardEvent(int type, int keycode) {
 		switch (type) {
 		case 0:
@@ -195,6 +217,9 @@ public class OSCWorld extends World {
 		}
 	}
 
+	/**
+	 * execute keyboard keys
+	 */
 	public void keyboardEvent(int type, int keycode, String value) {
 
 		KeyCodeData data;
@@ -356,6 +381,9 @@ public class OSCWorld extends World {
 		}
 	}
 
+	/**
+	 * moves mouse pointer on screen
+	 */
 	public void orientEvent(float z, float x, float y, float rawz, float rawx, float rawy) {
 		StringBuilder builder = new StringBuilder();
 		this.addValue(builder, "z", z);

@@ -3,9 +3,20 @@ import com.illposed.osc.OSCMessage;
 
 import jsera.util.World;
 
+/**
+ * this class is responsible for
+ * creating listerens
+ * @author Milad
+ *
+ */
 public class OSCListenerFactory {
 	
-	
+	/**
+	 * creates the listener for the receiving command
+	 * @param aAddress
+	 * @param world
+	 * @return the listener implementation
+	 */
 	public static OSCListener getListener(String aAddress, World world) {
 		world = returnType(world);
 		if(aAddress.equals("/mouse"))
@@ -22,12 +33,23 @@ public class OSCListenerFactory {
 		return orient(world);
 	}
 	
+	/**
+	 * converts world objects to
+	 * the right child object
+	 * @param world
+	 * @return the converted object
+	 */
 	private static World returnType(World world) {
 		if(world instanceof OSCWorld)
 			return (OSCWorld)world;
 		return world;
 	}
 	
+	/**
+	 * creates listener for mouse button
+	 * @param world
+	 * @return
+	 */
 	private static OSCListener mouse(final World world) {
 		OSCListener listener = new OSCListener() {
 			public void acceptMessage(java.util.Date time, OSCMessage message) {
@@ -41,6 +63,11 @@ public class OSCListenerFactory {
 		return listener;
 	}
 	
+	/**
+	 * creates listener for mouse left button
+	 * @param world
+	 * @return
+	 */
 	private static OSCListener leftButton(final World world) {
 		OSCListener listener = new OSCListener() {
 			public void acceptMessage(java.util.Date time, OSCMessage message) {
@@ -53,6 +80,11 @@ public class OSCListenerFactory {
 		return listener;
 	}
 	
+	/**
+	 * creates listener for mouse right button
+	 * @param world
+	 * @return
+	 */
 	private static OSCListener rightButton(final World world) {
 		OSCListener listener = new OSCListener() {
 			public void acceptMessage(java.util.Date time, OSCMessage message) {
@@ -65,6 +97,11 @@ public class OSCListenerFactory {
 		return listener;
 	}
 	
+	/**
+	 * creates listener for keyboard keys
+	 * @param world
+	 * @return
+	 */
 	private static OSCListener keyboard(final World world) {
 		OSCListener listener = new OSCListener() {
 			public void acceptMessage(java.util.Date time, OSCMessage message) {
@@ -82,6 +119,11 @@ public class OSCListenerFactory {
 		return listener;
 	}
 	
+	/**
+	 * creates listener for mouse wheel
+	 * @param world
+	 * @return
+	 */
 	private static OSCListener wheel(final World world) {
 		OSCListener listener = new OSCListener() {
 			public void acceptMessage(java.util.Date time, OSCMessage message) {
@@ -94,6 +136,11 @@ public class OSCListenerFactory {
 		return listener;
 	}
 	
+	/**
+	 * creates listener for mouse pointer moving
+	 * @param world
+	 * @return
+	 */
 	private static OSCListener orient(final World world) {
 		OSCListener listener = new OSCListener() {
 			public void acceptMessage(java.util.Date time, OSCMessage message) {

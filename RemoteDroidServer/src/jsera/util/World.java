@@ -4,6 +4,10 @@ import java.awt.*;
 
 import com.illposed.osc.OSCPortIn;
 
+/**
+ * world abstract class
+ *
+ */
 public abstract class World implements Updatable {
 	protected int ID;
 	protected static UIDHandler oUID = new UIDHandler();
